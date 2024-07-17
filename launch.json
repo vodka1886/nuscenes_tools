@@ -1,0 +1,30 @@
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "vis demo",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/vis_nuscenes/demo.py",
+            "args": [
+                "${workspaceFolder}/data/nuscenes_demo"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
+        },
+        {
+            "name": "pick sample",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/vis_nuscenes/pick_sample.py",
+            "args": [
+                "${workspaceFolder}/data/nuscenes"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
+        }
+    ]
+}
