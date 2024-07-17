@@ -96,7 +96,7 @@ def vis_ann_on_image(nusc_ep:NuscenesExplorer,sample_token:str=None,mode:str="im
     ann_index = 0
     unshown_list = []
     while True: 
-        frame = vis_nuscenes_sample(nusc_ep,sample_token,mode,False,unshown_list)
+        ori_frame,frame = vis_nuscenes_sample(nusc_ep,sample_token,mode,False,unshown_list)
         frame_focus = draw_ann_on_image(nusc_ep,sample_token,anns[ann_index],frame)
         cv2.imshow("test",frame_focus)
         cv2.waitKey(1)
@@ -113,8 +113,10 @@ def vis_ann_on_image(nusc_ep:NuscenesExplorer,sample_token:str=None,mode:str="im
            unshown_list.remove(anns[ann_index]) 
         elif user_input == 's':   
             current_time = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
-
-            cv2.imwrite("{}_{}.jpg".format(sample_token,current_time),frame)
+            ori_file = os.path.join("./outputs","{}_{}_ori.jpg".format(sample_token,current_time))
+            result_file = os.path.join("./outputs","{}_{}.jpg".format(sample_token,current_time))
+            cv2.imwrite(ori_file,ori_frame)
+            cv2.imwrite(result_file,frame)
             break  
         elif user_input == 'q':  # 如果按下'q'，退出  
             cv2.destroyAllWindows()
@@ -149,7 +151,8 @@ def vis_nuscenes_sample(nusc_ep:NuscenesExplorer,sample_token:str,mode:str,is_sh
     cam_front_data = nusc.get('sample_data', cam_front_token)  
     # # 读取图像文件  
     image_path = cam_front_data['filename']  
-    image = cv2.imread(os.path.join(nusc.dataroot,image_path)) 
+    image_ori = cv2.imread(os.path.join(nusc.dataroot,image_path)) 
+    image = image_ori.copy()
     # image = Image.open(os.path.join(nusc.dataroot,image_path)).convert('BGR')  
     # image_np = np.array(image)  # 转换为NumPy数组以便使用OpenCV  
     
@@ -195,10 +198,10 @@ def vis_nuscenes_sample(nusc_ep:NuscenesExplorer,sample_token:str,mode:str,is_sh
     #     test_pt = (int(pix_loc[0][0]),int(pix_loc[1][0]))
     #     cv2.circle(image, test_pt, 2, (0, 255, 0), 2)  
     if is_show:
-        cv2.imshow("test",image)
+        cv2.imshow("{}".format(sample_token),image)
         cv2.waitKey(1)
         print("Show over!")
-    return image
+    return image_ori,image
 
     
     

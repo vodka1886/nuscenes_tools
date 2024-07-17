@@ -47,7 +47,6 @@ if __name__=='__main__':
         elif user_input == 'a':  
             print("a: select ann and edit")
             ann_token = vis_ann_on_image(nusc_ep,sample_token)
-        
         elif user_input == 'p':  
             print("p: play")
             vis_nuscenes_sample(nusc_ep,sample_token,mode_map[mode_idx])
